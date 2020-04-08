@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://data/scripts/effects/spark/spark.gd" type="Script" id=2]
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector3( 0, 0, 0 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+radial_accel = 100.0
+radial_accel_random = 0.93
+angle = 720.0
+angle_random = 1.0
+
+[sub_resource type="SpatialMaterial" id=2]
+params_blend_mode = 1
+params_cull_mode = 2
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+emission_enabled = true
+emission = Color( 1, 0.72549, 0, 1 )
+emission_energy = 8.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="QuadMesh" id=3]
+material = SubResource( 2 )
+size = Vector2( 0.05, 0.05 )
+
+[node name="spark" type="Particles"]
+cast_shadow = 0
+emitting = false
+amount = 30
+lifetime = 0.1
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 1 )
+draw_pass_1 = SubResource( 3 )
+script = ExtResource( 2 )
+timer = NodePath("timer")
+
+[node name="timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true

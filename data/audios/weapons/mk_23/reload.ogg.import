@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/reload.ogg-270c8d98409841561732d12653c85b48.oggstr"
+
+[deps]
+
+source_file="res://data/audios/weapons/mk_23/reload.ogg"
+dest_files=[ "res://.import/reload.ogg-270c8d98409841561732d12653c85b48.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

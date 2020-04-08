@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/die.ogg-9f423509219af9113cb1ae8284b8244d.oggstr"
+
+[deps]
+
+source_file="res://data/audios/character/fall/die.ogg"
+dest_files=[ "res://.import/die.ogg-9f423509219af9113cb1ae8284b8244d.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

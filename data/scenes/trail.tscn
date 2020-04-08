@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://data/scripts/weapon/rail.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.01
+mid_height = 100.0
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.376471, 0.380392, 0.290196, 1 )
+metallic_specular = 0.0
+roughness = 0.0
+emission_enabled = true
+emission = Color( 0.972549, 1, 0, 1 )
+emission_energy = 10.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="trail" type="Spatial"]
+script = ExtResource( 1 )
+timer = NodePath("../trail/timer")
+
+[node name="mesh" type="MeshInstance" parent="."]
+cast_shadow = 0
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true
