@@ -16,7 +16,7 @@ var weapon = load("res://data/scripts/weapon/weapon.gd");
 var arsenal : Dictionary;
 
 # Current weapon
-var current : int = 0;
+var current : int = 1;
 
 # Dict of inputs
 var input : Dictionary = {};
@@ -35,6 +35,9 @@ func _ready() -> void:
 	
 	# Create mk 23 using weapon class
 	arsenal["mk_23"] = weapon.weapon.new(self, "mk_23", 2.0, 12, 999, 12);
+	
+	# Create glock 17 using weapon class
+	arsenal["glock_17"] = weapon.weapon.new(self, "glock_17", 3.0, 12, 999, 12);
 	
 	# Create kriss using weapon class
 	arsenal["kriss"] = weapon.weapon.new(self, "kriss", 6.0, 32, 999, 33);
@@ -94,3 +97,5 @@ func _unhandled_input(event):
 					current = 0;
 				if event.scancode == KEY_2:
 					current = 1;
+				if event.scancode == KEY_3:
+					current = 2;
