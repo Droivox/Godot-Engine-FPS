@@ -16,7 +16,7 @@ var weapon = load("res://data/scripts/weapon/weapon.gd");
 var arsenal : Dictionary;
 
 # Current weapon
-var current : int = 1;
+var current : int = 0;
 
 # Dict of inputs
 var input : Dictionary = {};
@@ -41,6 +41,9 @@ func _ready() -> void:
 	
 	# Create kriss using weapon class
 	arsenal["kriss"] = weapon.weapon.new(self, "kriss", 6.0, 32, 999, 33);
+	
+	for w in arsenal:
+		arsenal.values()[current]._hide();
 
 func _process(_delta) -> void:
 	# Call weapon function

@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Godot-Engine-FPS"
+config/name="Godot Engine FPS"
 run/main_scene="res://data/scenes/main.tscn"
 config/icon="res://icon.png"
 
@@ -122,8 +122,4 @@ KEY_E={
 [rendering]
 
 threads/thread_model=2
-quality/filters/anisotropic_filter_level=16
-quality/shadows/filter_mode=2
-quality/filters/use_nearest_mipmap_filter=true
-quality/filters/msaa=4
 environment/default_environment="res://default_env.tres"

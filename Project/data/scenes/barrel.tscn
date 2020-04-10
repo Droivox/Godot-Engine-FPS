@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://data/models/barrel/material.material" type="Material" id=1]
 [ext_resource path="res://data/scripts/barrel/barrel.gd" type="Script" id=2]
@@ -25,14 +25,20 @@ surfaces/0 = {
 radius = 0.713798
 height = 2.28251
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.503704, 1 )
 colors = PoolColorArray( 0.454902, 0.392157, 0.392157, 0, 0, 0, 0, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=13]
-gradient = SubResource( 12 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+min_value = -200.0
+max_value = 200.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
 
 [sub_resource type="Curve" id=7]
 max_value = 10.0
@@ -42,7 +48,7 @@ _data = [ Vector2( 0, 9.47727 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0
 [sub_resource type="CurveTexture" id=8]
 curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=14]
+[sub_resource type="ParticlesMaterial" id=9]
 emission_shape = 1
 emission_sphere_radius = 1.0
 direction = Vector3( 0, 0, 0 )
@@ -54,9 +60,9 @@ linear_accel_curve = SubResource( 6 )
 scale = 0.1
 scale_random = 1.0
 scale_curve = SubResource( 8 )
-color_ramp = SubResource( 13 )
+color_ramp = SubResource( 4 )
 
-[sub_resource type="SpatialMaterial" id=15]
+[sub_resource type="SpatialMaterial" id=10]
 flags_transparent = true
 vertex_color_use_as_albedo = true
 vertex_color_is_srgb = true
@@ -68,11 +74,11 @@ particles_anim_loop = false
 albedo_color = Color( 0.266667, 0.266667, 0.266667, 0.588235 )
 albedo_texture = ExtResource( 4 )
 
-[sub_resource type="QuadMesh" id=16]
-material = SubResource( 15 )
+[sub_resource type="QuadMesh" id=11]
+material = SubResource( 10 )
 size = Vector2( 0.5, 0.5 )
 
-[sub_resource type="ParticlesMaterial" id=19]
+[sub_resource type="ParticlesMaterial" id=12]
 emission_shape = 1
 emission_sphere_radius = 1.0
 direction = Vector3( 0, 0, 0 )
@@ -85,18 +91,30 @@ linear_accel_curve = SubResource( 6 )
 scale = 0.1
 scale_random = 1.0
 scale_curve = SubResource( 8 )
-color_ramp = SubResource( 13 )
+color_ramp = SubResource( 4 )
 
-[sub_resource type="QuadMesh" id=20]
-material = SubResource( 15 )
+[sub_resource type="SpatialMaterial" id=13]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+params_cull_mode = 2
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_color = Color( 0.266667, 0.266667, 0.266667, 0.588235 )
+albedo_texture = ExtResource( 4 )
 
-[sub_resource type="Gradient" id=17]
+[sub_resource type="QuadMesh" id=14]
+material = SubResource( 13 )
+
+[sub_resource type="Gradient" id=15]
 colors = PoolColorArray( 0, 0, 0, 1, 0.501961, 0.501961, 0.501961, 0 )
 
-[sub_resource type="GradientTexture" id=18]
-gradient = SubResource( 17 )
+[sub_resource type="GradientTexture" id=16]
+gradient = SubResource( 15 )
 
-[sub_resource type="ParticlesMaterial" id=9]
+[sub_resource type="ParticlesMaterial" id=17]
 render_priority = 1
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -107,9 +125,9 @@ initial_velocity = 2.0
 angle = -720.0
 angle_random = 1.0
 scale_curve = SubResource( 8 )
-color_ramp = SubResource( 18 )
+color_ramp = SubResource( 16 )
 
-[sub_resource type="SpatialMaterial" id=10]
+[sub_resource type="SpatialMaterial" id=18]
 flags_transparent = true
 vertex_color_use_as_albedo = true
 vertex_color_is_srgb = true
@@ -128,9 +146,12 @@ emission_operator = 1
 emission_on_uv2 = false
 emission_texture = ExtResource( 4 )
 
-[sub_resource type="QuadMesh" id=11]
-material = SubResource( 10 )
+[sub_resource type="QuadMesh" id=19]
+material = SubResource( 18 )
 size = Vector2( 0.4, 0.4 )
+
+[sub_resource type="SphereShape" id=20]
+radius = 6.0
 
 [node name="barrel" type="RigidBody" groups=[
 "metal",
@@ -139,8 +160,6 @@ size = Vector2( 0.4, 0.4 )
 mass = 6.0
 can_sleep = false
 script = ExtResource( 2 )
-timer = NodePath("timer")
-durability = 210
 
 [node name="mesh" type="Spatial" parent="."]
 transform = Transform( 0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, 0 )
@@ -159,26 +178,26 @@ one_shot = true
 
 [node name="effects" type="Spatial" parent="."]
 
-[node name="smoke" type="Particles" parent="effects"]
+[node name="ex" type="Particles" parent="effects"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 cast_shadow = 0
 emitting = false
 amount = 50
 one_shot = true
-process_material = SubResource( 14 )
-draw_pass_1 = SubResource( 16 )
+process_material = SubResource( 9 )
+draw_pass_1 = SubResource( 11 )
 
-[node name="black_smoke" type="Particles" parent="effects"]
+[node name="plo" type="Particles" parent="effects"]
 cast_shadow = 0
 emitting = false
 amount = 50
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
-process_material = SubResource( 19 )
-draw_pass_1 = SubResource( 20 )
+process_material = SubResource( 12 )
+draw_pass_1 = SubResource( 14 )
 
-[node name="fire" type="Particles" parent="effects"]
+[node name="sion" type="Particles" parent="effects"]
 cast_shadow = 0
 emitting = false
 amount = 50
@@ -186,8 +205,8 @@ lifetime = 1.5
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
-process_material = SubResource( 9 )
-draw_pass_1 = SubResource( 11 )
+process_material = SubResource( 17 )
+draw_pass_1 = SubResource( 19 )
 
 [node name="audios" type="Spatial" parent="."]
 
@@ -198,3 +217,8 @@ unit_db = 80.0
 [node name="impact" type="AudioStreamPlayer3D" parent="audios"]
 stream = ExtResource( 5 )
 unit_db = 80.0
+
+[node name="explosion" type="Area" parent="."]
+
+[node name="collision" type="CollisionShape" parent="explosion"]
+shape = SubResource( 20 )

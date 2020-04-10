@@ -1,25 +1,27 @@
 extends RigidBody
 
-export(NodePath) var timer;
-
-export var durability : int = 99999999;
+export var durability : int = 100;
+var remove_decal : bool = false;
 
 func _ready():
-	timer = get_node(timer);
-	
-	timer.connect("timeout", self, "queue_free");
+	$timer.connect("timeout", self, "queue_free");
 
-func _interact(damage) -> void:
-	var dam_calc = durability - damage;
-	
-	$audios/impact.pitch_scale = rand_range(0.9, 1.1);
-	$audios/impact.play()
-	
-	if dam_calc <= 0:
-		_explosion();
-		timer.start();
-	else:
-		durability -= damage;
+func _damage(damage) -> void:
+	if durability > 0:
+		var dam_calc = durability - damage;
+		
+		$audios/impact.pitch_scale = rand_range(0.9, 1.1);
+		$audios/impact.play()
+		
+		if dam_calc <= 0:
+			durability -= damage;
+			_explosion();
+			$timer.start();
+		else:
+			durability -= damage;
+
+func _process(_delta):
+	_remove_decal();
 
 func _explosion() -> void:
 	$collision.disabled = true;
@@ -33,11 +35,23 @@ func _explosion() -> void:
 	mode = MODE_STATIC;
 	
 	$mesh.visible = false;
-	$effects/fire.emitting = true;
-	$effects/smoke.emitting = true;
-	$effects/black_smoke.emitting = true;
+	$effects/ex.emitting = true;
+	$effects/plo.emitting = true;
+	$effects/sion.emitting = true;
+	$audios/explosion.pitch_scale = rand_range(0.9, 1.1);
 	$audios/explosion.play();
 	
-	for child in get_child_count():
-		if get_child(child).is_in_group("decal"):
-			get_child(child).queue_free();
+	for bodie in $explosion.get_overlapping_bodies():
+		if bodie.has_method("_damage") and bodie != self:
+			if "durability" in bodie:
+				if bodie.durability > 0:
+					var explosion_distance = (5 * bodie.global_transform.origin.distance_to(global_transform.origin));
+					bodie._damage(300 - explosion_distance);
+	
+	remove_decal = true;
+
+func _remove_decal():
+	if remove_decal:
+		for child in get_child_count():
+			if get_child(child).is_in_group("decal"):
+				get_child(child).queue_free();

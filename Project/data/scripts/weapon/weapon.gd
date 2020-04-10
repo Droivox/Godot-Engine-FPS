@@ -26,18 +26,12 @@ class weapon:
 	func _draw() -> void:
 		# Check is visible
 		if not mesh.visible:
-			# This weapon is visible
-			mesh.visible = true;
-			
 			# Play draw animaton
 			anim.play("Draw");
 	
 	func _hide() -> void:
 		# Check is visible
 		if mesh.visible:
-			# This weapon is visible
-			mesh.visible = true;
-			
 			# Play hide animaton
 			anim.play("Hide");
 	
@@ -67,7 +61,10 @@ class weapon:
 				effect.get_node("shoot").light_energy = 2;
 				
 				# Emitt fire particles
-				effect.get_node("particle").emitting = true;
+				effect.get_node("fire").emitting = true;
+				
+				# Emitt smoke particles
+				effect.get_node("smoke").emitting = true;
 				
 				# Play shoot sound
 				audio.get_node("shoot").pitch_scale = rand_range(0.9, 1.1);
@@ -117,9 +114,9 @@ class weapon:
 							
 							spark.emitting = true;
 						
-						if ray.get_collider().has_method("_interact"):
+						if ray.get_collider().has_method("_damage"):
 							damage = int(rand_range(10, 35))
-							ray.get_collider()._interact(damage);
+							ray.get_collider()._damage(damage);
 					
 					# Create a instance of decal scene
 					var decal = preload("res://data/scenes/decal.tscn").instance();

@@ -7,26 +7,26 @@
 [ext_resource path="res://data/scenes/barrel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://data/scenes/environment.tscn" type="PackedScene" id=6]
 
-[sub_resource type="SpatialMaterial" id=1]
-albedo_texture = ExtResource( 1 )
-uv1_triplanar = true
-
-[sub_resource type="CubeMesh" id=2]
-material = SubResource( 1 )
-size = Vector3( 500, 2, 500 )
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 250, 1, 250 )
-
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 6, 20 )
 
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_texture = ExtResource( 1 )
 uv1_triplanar = true
 
-[sub_resource type="ConvexPolygonShape" id=6]
+[sub_resource type="ConvexPolygonShape" id=3]
 points = PoolVector3Array( -0.5, 3, 10, 0.5, 3, -10, 0.5, 3, 10, -0.5, 3, -10, -0.5, -3, 10, 0.5, -3, -10, 0.5, -3, 10, -0.5, -3, -10, 0.5, 3, 10, -0.5, 3, -10, 0.5, 3, -10, -0.5, 3, 10, 0.5, -3, 10, -0.5, -3, -10, 0.5, -3, -10, -0.5, -3, 10, 0.5, 3, 10, -0.5, -3, 10, -0.5, 3, 10, 0.5, -3, 10, 0.5, 3, -10, -0.5, -3, -10, -0.5, 3, -10, 0.5, -3, -10 )
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 1 )
+uv1_triplanar = true
+
+[sub_resource type="CubeMesh" id=5]
+material = SubResource( 4 )
+size = Vector3( 500, 2, 500 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 250, 1, 250 )
 
 [node name="main" type="Node"]
 
@@ -49,46 +49,51 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01706, 7.6865 )
 
 [node name="scenario" type="Spatial" parent="."]
 
+[node name="wall" type="StaticBody" parent="scenario" groups=[
+"wallk",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 4, 8 )
+
+[node name="mesh" type="MeshInstance" parent="scenario/wall"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="collision" type="CollisionShape" parent="scenario/wall"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+shape = SubResource( 3 )
+
 [node name="terrain" type="StaticBody" parent="scenario" groups=[
 "concrete",
 ]]
 
 [node name="mesh" type="MeshInstance" parent="scenario/terrain"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0358462, -0.01824, 0.0206671 )
-mesh = SubResource( 2 )
+mesh = SubResource( 5 )
 material/0 = null
 
 [node name="collision" type="CollisionShape" parent="scenario/terrain"]
-shape = SubResource( 3 )
+shape = SubResource( 6 )
 
-[node name="barrel2" parent="scenario" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.7607, 2.17547, 1.0496 )
+[node name="props" type="Spatial" parent="scenario"]
 
-[node name="barrel3" parent="scenario" instance=ExtResource( 5 )]
+[node name="barrel9" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.9419, 2.17547, 1.0496 )
+
+[node name="barrel10" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0438, 2.17547, -3.28854 )
+
+[node name="barrel3" parent="scenario/props" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7607, 2.17547, 16.0496 )
 
-[node name="barrel6" parent="scenario" instance=ExtResource( 5 )]
+[node name="barrel6" parent="scenario/props" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.7607, 2.17547, 9.0496 )
 
-[node name="barrel4" parent="scenario" instance=ExtResource( 5 )]
+[node name="barrel4" parent="scenario/props" instance=ExtResource( 5 )]
 transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -6.16434, 2.17547, 22.4399 )
 
-[node name="barrel7" parent="scenario" instance=ExtResource( 5 )]
-transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -4.16434, 2.17547, -12.5601 )
+[node name="barrel7" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -4.16434, 2.17547, 4.98908 )
 
-[node name="barrel5" parent="scenario" instance=ExtResource( 5 )]
-transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -11.6516, 2.17547, -5.60798 )
-
-[node name="wall" type="StaticBody" parent="." groups=[
-"wallk",
-]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 4, 8 )
-
-[node name="mesh" type="MeshInstance" parent="wall"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
-mesh = SubResource( 4 )
-material/0 = SubResource( 5 )
-
-[node name="collision" type="CollisionShape" parent="wall"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
-shape = SubResource( 6 )
+[node name="barrel5" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -3.99512, 2.17547, 7.7697 )
