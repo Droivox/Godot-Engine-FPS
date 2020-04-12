@@ -5,14 +5,18 @@ class weapon:
 	var bullets : int;
 	var ammo : int;
 	var max_bullets : int;
+	var damage : int;
+	var reload_speed : float;
 	
-	func _init(owner, name, firerate, bullets, ammo, max_bullets) -> void:
+	func _init(owner, name, firerate, bullets, ammo, max_bullets, damage, reload_speed) -> void:
 		self.owner = owner;
 		self.name = name;
 		self.firerate = firerate;
 		self.bullets = bullets;
 		self.ammo = ammo;
 		self.max_bullets = max_bullets;
+		self.damage = damage;
+		self.reload_speed = reload_speed;
 	
 	# Get animation node
 	var anim = owner.get_node("{}/mesh/anim".format([name], "{}"));
@@ -96,11 +100,11 @@ class weapon:
 				
 				# Check raycast is colliding
 				if ray.is_colliding():
-					var damage = int(rand_range(10, 35))
+					var local_damage = int(rand_range(damage/1.5, damage))
 					
 					# Do damage
 					if ray.get_collider() is RigidBody:
-						ray.get_collider().apply_central_impulse(-ray.get_collision_normal() * (damage * 0.3));
+						ray.get_collider().apply_central_impulse(-ray.get_collision_normal() * (local_damage * 0.3));
 					
 					if ray.get_collider().is_in_group("prop"):
 						if ray.get_collider().is_in_group("metal"):
@@ -115,8 +119,8 @@ class weapon:
 							spark.emitting = true;
 						
 						if ray.get_collider().has_method("_damage"):
-							damage = int(rand_range(10, 35))
-							ray.get_collider()._damage(damage);
+							ray.get_collider()._damage(local_damage);
+							print(local_damage);
 					
 					# Create a instance of decal scene
 					var decal = preload("res://data/scenes/decal.tscn").instance();
@@ -139,7 +143,7 @@ class weapon:
 		if bullets < max_bullets and ammo > 0:
 			if animc != "Reload" and animc != "Shoot" and animc != "Draw" and animc != "Hide":
 				# Play reload animation
-				anim.play("Reload");
+				anim.play("Reload", 0.2, reload_speed);
 				
 				for b in ammo:
 					bullets += 1

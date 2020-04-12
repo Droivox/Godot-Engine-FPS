@@ -1,12 +1,12 @@
 extends Spatial
 
-# Get character node path
+# Get character's node path
 export(NodePath) var character;
 
-# Get head node path
+# Get head's node path
 export(NodePath) var head;
 
-# Get camera node path
+# Get camera's node path
 export(NodePath) var camera;
 
 # Load weapon class for make weapons
@@ -33,14 +33,17 @@ func _ready() -> void:
 	# Get head node from path
 	character = get_node(character);
 	
+	# Class reference : 
+	# owner, name, firerate, bullets, ammo, max_bullets, damage, reload_speed;
+	
 	# Create mk 23 using weapon class
-	arsenal["mk_23"] = weapon.weapon.new(self, "mk_23", 2.0, 12, 999, 12);
+	arsenal["mk_23"] = weapon.weapon.new(self, "mk_23", 2.0, 12, 999, 12, 40, 1.2);
 	
 	# Create glock 17 using weapon class
-	arsenal["glock_17"] = weapon.weapon.new(self, "glock_17", 3.0, 12, 999, 12);
+	arsenal["glock_17"] = weapon.weapon.new(self, "glock_17", 3.0, 12, 999, 12, 35, 1.2);
 	
 	# Create kriss using weapon class
-	arsenal["kriss"] = weapon.weapon.new(self, "kriss", 6.0, 32, 999, 33);
+	arsenal["kriss"] = weapon.weapon.new(self, "kriss", 6.0, 32, 999, 33, 25, 1.5);
 	
 	for w in arsenal:
 		arsenal.values()[current]._hide();
@@ -56,9 +59,9 @@ func _weapon(_delta) -> void:
 	input["reload"] = int(Input.is_action_pressed("KEY_R"));
 	input["zoom"] = int(Input.is_action_pressed("mb_right"));
 	
-	arsenal.values()[current]._sprint(character.input["run"] or character.input["jump"], _delta);
+	arsenal.values()[current]._sprint(character.input["sprint"] or character.input["jump"], _delta);
 	
-	if not character.input["run"] or not character.direction:
+	if not character.input["sprint"] or not character.direction:
 		if input["shoot"]:
 			arsenal.values()[current]._shoot();
 		

@@ -2,7 +2,7 @@ extends KinematicBody
 
 # All speed variables
 var n_speed : float = 04; # Normal
-var r_speed : float = 12; # Running
+var s_speed : float = 12; # Sprint
 var w_speed : float = 08; # Walking
 var c_speed : float = 10; # Crouch
 
@@ -27,8 +27,8 @@ func _physics_process(_delta) -> void:
 	# Function for jump
 	_jump(_delta);
 	
-	# Function for run
-	_run(_delta)
+	# Function for sprint
+	_sprint(_delta)
 
 func _movement(_delta) -> void:
 	# Inputs
@@ -90,14 +90,14 @@ func _jump(_delta) -> void:
 		if is_on_floor():
 			velocity.y = jump_height;
 
-func _run(_delta) -> void:
+func _sprint(_delta) -> void:
 	# Inputs
-	input["run"] = int(Input.is_action_pressed("KEY_SHIFT"));
+	input["sprint"] = int(Input.is_action_pressed("KEY_SHIFT"));
 	
-	# Make the character run
+	# Make the character sprint
 	if not input["crouch"]: # If you are not crouching
-		# switch between running and walking
-		var toggle_speed : float = w_speed + ((r_speed - w_speed) * input["run"])
+		# switch between sprint and walking
+		var toggle_speed : float = w_speed + ((s_speed - w_speed) * input["sprint"])
 		
 		# Create a character speed interpolation
 		n_speed = lerp(n_speed, toggle_speed, 3 * _delta);

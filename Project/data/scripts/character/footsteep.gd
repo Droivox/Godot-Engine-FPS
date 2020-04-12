@@ -9,7 +9,7 @@ var footsteep_list : Dictionary = {};
 
 var dont_repeat : int = 0;
 
-func _ready():
+func _ready() -> void:
 	randomize();
 	
 	feet = get_node(feet);
@@ -18,7 +18,7 @@ func _ready():
 	for audio in get_child_count():
 		footsteep_list[get_child(audio).name] = get_child(audio);
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if footsteep_timer <= 0:
 		if character.direction:
 			if feet.is_colliding():

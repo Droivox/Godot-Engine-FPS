@@ -1,44 +1,44 @@
 extends CanvasLayer
 
-# Váriaveis de tela
+# Screen variables
 var fullscreen : bool = false
 
-# Todos os input do debug
+# All debug inputs
 var input : Dictionary = {};
 
 func _process(_delta) -> void:
-	# Chama a função para mudar para fullscren ou janela com Alt e Enter
+	# Calls the function to switch to fullscren or window with Alt and Enter
 	_toggle_fullscreen();
 	
-	# Chama a função para mostrar o framerate
+	# Calls the function to show the framerate
 	_display_framerate();
 	
-	# Chama a função para resetar o jogo
+	# Calls the function to reset the game
 	_reload_scene();
 
 func _toggle_fullscreen() -> void:
-	# Caso não tenha o node timer fullscreen ele vai criar um
+	# If you don't have a fullscreen node timer it will create a
 	if not has_node("timer_fullscreen"):
-		# Cria um timer
+		# Creates a timer
 		var timer = Timer.new();
 		
-		# Muda o nome do timer para fullscreen
+		# Change timer name to fullscreen
 		timer.name = "timer_fullscreen";
 		
-		# O tempo do timer
+		# The timer time
 		timer.wait_time = 0.2;
 		
-		# Timer vai contar uma vez e parar
+		# Timer will count once and stop
 		timer.one_shot = true;
 		
-		# Adiciona o timer no debug
+		# Adds the timer to the debug
 		add_child(timer);
 	
-	else: # caso já tenha o node timer fullscreen
-		# Pega o node timer fullscreen 
+	else: # if you already have the fullscreen node timer
+		# Get the fullscreen node timer
 		var timer = $"timer_fullscreen";
 		
-		# Caso o timer chegue a zero eu posso mudar o modo de tela
+		# If the timer reaches zero I can change the screen mode
 		if !timer.time_left:
 			input["enter"] = Input.is_action_pressed("KEY_ENTER");
 			input['alt']   = Input.is_action_pressed("KEY_ALT");
@@ -48,38 +48,38 @@ func _toggle_fullscreen() -> void:
 				
 				OS.window_fullscreen = fullscreen;
 				
-				# Inicia o timer novamente
+				# Starts the timer again
 				timer.start();
 
 func _display_framerate() -> void:
-	# Caso não tenha o framerate label
+	# If you don't have the framerate label
 	if not has_node("framerate_label"):
-		# Cria um novo label
+		# Create a new label
 		var framerate_label = Label.new();
 		
-		# Muda o nome do label para framerate label
+		# Renames the label to framerate label
 		framerate_label.name = "framerate_label";
 		
-		# Muda a posição do framerate label
+		# Changes the position of the framerate label
 		framerate_label.rect_position = Vector2(5, 5)
 		
-		# Muda a cor do framerate label
+		# Changes the color of the framerate label
 		framerate_label.add_color_override("font_color", ColorN("black"))
 		
-		# Adiciona o label framerate ao debug
+		# Adds the framerate label to the debug
 		add_child(framerate_label);
 	else:
-		# Pega o framerate label
+		# Get the framerate label
 		var framerate_label = $"framerate_label";
 		
-		# Muda o texto do label para o do framerate
+		# Changes the text of the label to that of the framerate
 		framerate_label.text = str(Engine.get_frames_per_second());
 
 func _reload_scene() -> void:
 	# Input
 	input["reload"] = Input.is_action_just_pressed("KEY_F6")
 	
-	# Caso eu pressione o botão reload
+	# If I press the reload button
 	if input["reload"]:
-		# Recarrega a cena
+		# Reload the scene
 		get_tree().reload_current_scene();
