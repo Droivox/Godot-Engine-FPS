@@ -28,7 +28,7 @@ func _mouse_toggle() -> void:
 func _camera_rotation(_event) -> void:
 	# If the mouse is locked
 	if captured:
-		var camera : Dictionary = {0: $"neck/camera", 1: $"."};
+		var camera : Dictionary = {0: $".", 1: $"."};
 		
 		if _event is InputEventMouseMotion:
 			# Rotates the camera on the x axis

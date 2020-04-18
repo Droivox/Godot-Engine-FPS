@@ -1,17 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://data/scripts/effects/spark/spark.gd" type="Script" id=2]
 
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0.0124224, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
 [sub_resource type="ParticlesMaterial" id=1]
+lifetime_randomness = 0.3
 emission_shape = 1
 emission_sphere_radius = 0.01
 direction = Vector3( 0, 0, 0 )
-spread = 0.0
-gravity = Vector3( 0, 0, 0 )
+spread = 180.0
+flatness = 1.0
+gravity = Vector3( 0, -1, 0 )
 radial_accel = 100.0
 radial_accel_random = 0.93
 angle = 720.0
 angle_random = 1.0
+scale_curve = SubResource( 5 )
 
 [sub_resource type="SpatialMaterial" id=2]
 params_blend_mode = 1
@@ -20,6 +29,7 @@ params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
+metallic_specular = 0.0
 emission_enabled = true
 emission = Color( 1, 0.72549, 0, 1 )
 emission_energy = 8.0
@@ -28,15 +38,15 @@ emission_on_uv2 = false
 
 [sub_resource type="QuadMesh" id=3]
 material = SubResource( 2 )
-size = Vector2( 0.05, 0.05 )
+size = Vector2( 0.06, 0.06 )
 
 [node name="spark" type="Particles"]
 cast_shadow = 0
 emitting = false
-amount = 30
-lifetime = 0.1
+amount = 50
+lifetime = 0.15
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.5
 process_material = SubResource( 1 )
 draw_pass_1 = SubResource( 3 )
 script = ExtResource( 2 )

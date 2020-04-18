@@ -77,23 +77,50 @@ shape = SubResource( 6 )
 
 [node name="props" type="Spatial" parent="scenario"]
 
-[node name="barrel9" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.9419, 2.17547, 1.0496 )
+[node name="barrel_0" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -7.54773, 2.25286, 12.1553 )
 
-[node name="barrel10" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0438, 2.17547, -3.28854 )
+[node name="barrel_1" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4004, 2.67564, 8.92728 )
 
-[node name="barrel3" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7607, 2.17547, 16.0496 )
+[node name="barrel_2" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.23876, 2.67564, 8.92728 )
 
-[node name="barrel6" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.7607, 2.17547, 9.0496 )
+[node name="barrel_3" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.23876, 2.67564, 17.051 )
 
-[node name="barrel4" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -6.16434, 2.17547, 22.4399 )
+[node name="barrel_4" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.2444, 2.67564, 13.7984 )
 
-[node name="barrel7" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -4.16434, 2.17547, 4.98908 )
+[node name="barrel_5" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.2444, 2.67564, 18.555 )
 
-[node name="barrel5" parent="scenario/props" instance=ExtResource( 5 )]
-transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -3.99512, 2.17547, 7.7697 )
+[node name="barrel_6" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2284, 2.67564, 14.555 )
+
+[node name="barrel_7" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2284, 2.67564, 19.555 )
+
+[node name="barrel_15" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 0.727593, 0, -0.686009, 0, 1, 0, 0.686009, 0, 0.727593, -12.9291, 2.25286, 12.1553 )
+
+[node name="barrel_14" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.7818, 2.67564, 8.92728 )
+
+[node name="barrel_13" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6202, 2.67564, 8.92728 )
+
+[node name="barrel_12" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.6202, 2.67564, 17.051 )
+
+[node name="barrel_11" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6258, 2.67564, 13.7984 )
+
+[node name="barrel_10" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6258, 2.67564, 18.555 )
+
+[node name="barrel_9" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.6098, 2.67564, 14.555 )
+
+[node name="barrel_8" parent="scenario/props" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.6098, 2.67564, 19.555 )

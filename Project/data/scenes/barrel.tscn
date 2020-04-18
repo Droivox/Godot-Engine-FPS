@@ -158,7 +158,6 @@ radius = 6.0
 "prop",
 ]]
 mass = 6.0
-can_sleep = false
 script = ExtResource( 2 )
 
 [node name="mesh" type="Spatial" parent="."]
@@ -219,6 +218,10 @@ stream = ExtResource( 5 )
 unit_db = 80.0
 
 [node name="explosion" type="Area" parent="."]
+
+[node name="timer" type="Timer" parent="explosion"]
+wait_time = 0.2
+one_shot = true
 
 [node name="collision" type="CollisionShape" parent="explosion"]
 shape = SubResource( 20 )

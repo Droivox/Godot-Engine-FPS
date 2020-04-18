@@ -7,6 +7,9 @@ export(NodePath) var character;
 export(NodePath) var head;
 
 # Get camera's node path
+export(NodePath) var neck;
+
+# Get camera's node path
 export(NodePath) var camera;
 
 # Load weapon class for make weapons
@@ -27,6 +30,9 @@ func _ready() -> void:
 	# Get camera node from path
 	camera = get_node(camera);
 	
+	# Get neck node from path
+	neck = get_node(neck);
+	
 	# Get head node from path
 	head = get_node(head);
 	
@@ -36,7 +42,7 @@ func _ready() -> void:
 	# Class reference : 
 	# owner, name, firerate, bullets, ammo, max_bullets, damage, reload_speed;
 	
-	# Create mk 23 using weapon class
+	# Create mk 23 using weapon classs
 	arsenal["mk_23"] = weapon.weapon.new(self, "mk_23", 2.0, 12, 999, 12, 40, 1.2);
 	
 	# Create glock 17 using weapon class
@@ -63,15 +69,16 @@ func _weapon(_delta) -> void:
 	
 	if not character.input["sprint"] or not character.direction:
 		if input["shoot"]:
-			arsenal.values()[current]._shoot();
+			arsenal.values()[current]._shoot(_delta);
 		
 		arsenal.values()[current]._zoom(input["zoom"], _delta);
 	
 	if input["reload"]:
 		arsenal.values()[current]._reload();
 	
-	# Update current weapon
-	arsenal.values()[current]._update(_delta);
+	# Update arsenal
+	for w in range(arsenal.size()):
+		arsenal.values()[w]._update(_delta);
 
 func _change() -> void:
 	# change weapons

@@ -6,13 +6,15 @@ var s_speed : float = 12; # Sprint
 var w_speed : float = 08; # Walking
 var c_speed : float = 10; # Crouch
 
-# Váriaveis de física
-var gravity     : float = 50; # Gravity force
-var jump_height : float = 15; # Jump height
+# Physics variables
+var gravity      : float = 50; # Gravity force
+var jump_height  : float = 15; # Jump height
+var friction     : float = 25; # friction
 
-# Todos os vetores
-var velocity  : = Vector3(); # Velocity vector
-var direction : = Vector3(); # Direction Vector
+# All vectors
+var velocity     : = Vector3(); # Velocity vector
+var direction    : = Vector3(); # Direction Vector
+var acceleration : = Vector3(); # Acceleration Vector
 
 # All character inputs
 var input : Dictionary = {};
@@ -37,20 +39,23 @@ func _movement(_delta) -> void:
 	input["foward"] = int(Input.is_action_pressed("KEY_W"));
 	input["back"]   = int(Input.is_action_pressed("KEY_S"));
 	
-	# Look direction
-	direction = Vector3();
-	
-	var basis = $"head/neck".global_transform.basis;
-	direction += (-input["left"]    + input["right"]) * basis.x;
-	direction += (-input["foward"]  +  input["back"]) * basis.z;
-	
 	# Check is on floor
-	if not is_on_floor():
+	if is_on_floor():
+		direction = Vector3();
+	else:
+		direction = direction.linear_interpolate(Vector3(), friction * _delta);
+		
 		# Applies gravity
 		velocity.y += -gravity * _delta;
 	
+	var basis = $"head".global_transform.basis;
+	direction += (-input["left"]    + input["right"]) * basis.x;
+	direction += (-input["foward"]  +  input["back"]) * basis.z;
+	
+	direction.y = 0; direction = direction.normalized()
+	
 	# Interpolates between the current position and the future position of the character
-	var target = direction * n_speed;
+	var target = direction * n_speed; direction.y = 0;
 	var temp_velocity = velocity.linear_interpolate(target, n_speed * _delta);
 	
 	# Applies interpolation to the velocity vector

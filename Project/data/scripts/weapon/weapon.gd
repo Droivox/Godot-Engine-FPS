@@ -43,9 +43,9 @@ class weapon:
 		if sprint and owner.character.direction:
 			mesh.rotation.x = lerp(mesh.rotation.x, -deg2rad(40), 5 * _delta);
 		else:
-			mesh.rotation.x = lerp(mesh.rotation.x, 0, _delta);
+			mesh.rotation.x = lerp(mesh.rotation.x, 0, 5 * _delta);
 	
-	func _shoot() -> void:
+	func _shoot(_delta) -> void:
 		# Get audio node
 		var audio = owner.get_node("{}/audio".format([name], "{}"));
 		
@@ -56,6 +56,10 @@ class weapon:
 			# Play shoot animation if not reloading
 			if animc != "Shoot" and animc != "Reload" and animc != "Draw" and animc != "Hide":
 				bullets -= 1;
+				
+				# recoil
+				owner.camera.rotation.x = lerp(owner.camera.rotation.x, rand_range(1, 3), _delta);
+				owner.camera.rotation.y = lerp(owner.camera.rotation.y, rand_range(-1, 1), _delta);
 				
 				# Shake the camera
 				owner.camera.shake_force = 0.002;
@@ -96,7 +100,7 @@ class weapon:
 				main.add_child(trail);
 				
 				# Get raycast weapon range
-				var ray = owner.get_node("ray");
+				var ray = owner.get_node("{}/ray".format([name], "{}"));
 				
 				# Check raycast is colliding
 				if ray.is_colliding():
@@ -120,7 +124,6 @@ class weapon:
 						
 						if ray.get_collider().has_method("_damage"):
 							ray.get_collider()._damage(local_damage);
-							print(local_damage);
 					
 					# Create a instance of decal scene
 					var decal = preload("res://data/scenes/decal.tscn").instance();
@@ -166,6 +169,11 @@ class weapon:
 			mesh.translation.x = lerp(mesh.translation.x, 0, lerp_speed * _delta);
 	
 	func _update(_delta) -> void:
+		if animc != "Shoot":
+			if owner.arsenal.values()[owner.current] == self:
+				owner.camera.rotation.x = lerp(owner.camera.rotation.x, 0, 10 * _delta);
+				owner.camera.rotation.y = lerp(owner.camera.rotation.y, 0, 10 * _delta);
+		
 		# Get current animation
 		animc = anim.current_animation;
 		
