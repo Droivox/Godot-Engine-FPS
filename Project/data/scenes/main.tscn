@@ -1,11 +1,33 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://data/textures/grid.png" type="Texture" id=1]
 [ext_resource path="res://data/scenes/character.tscn" type="PackedScene" id=2]
 [ext_resource path="res://data/scenes/debug.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/scenes/fade.tscn" type="PackedScene" id=4]
 [ext_resource path="res://data/scenes/barrel.tscn" type="PackedScene" id=5]
-[ext_resource path="res://data/scenes/environment.tscn" type="PackedScene" id=6]
+
+[sub_resource type="ProceduralSky" id=7]
+sun_latitude = 39.24
+sun_curve = 0.246229
+
+[sub_resource type="Environment" id=8]
+background_mode = 2
+background_sky = SubResource( 7 )
+fog_color = Color( 0.372549, 0.372549, 0.372549, 1 )
+fog_sun_color = Color( 1, 1, 1, 1 )
+tonemap_mode = 2
+ssao_enabled = true
+ssao_intensity = 6.0
+ssao_quality = 0
+dof_blur_far_distance = 5.0
+dof_blur_far_transition = 50.0
+dof_blur_far_quality = 2
+dof_blur_near_amount = 0.05
+dof_blur_near_quality = 2
+glow_enabled = true
+glow_blend_mode = 1
+glow_bicubic_upscale = true
+adjustment_enabled = true
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 6, 20 )
@@ -38,7 +60,8 @@ light_color = Color( 0.976471, 0.959804, 0.85098, 1 )
 shadow_enabled = true
 directional_shadow_blend_splits = true
 
-[node name="environment" parent="post_processing" instance=ExtResource( 6 )]
+[node name="environment" type="WorldEnvironment" parent="post_processing"]
+environment = SubResource( 8 )
 
 [node name="character" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01706, 7.6865 )

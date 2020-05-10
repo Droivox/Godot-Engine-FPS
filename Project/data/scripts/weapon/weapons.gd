@@ -54,7 +54,7 @@ func _ready() -> void:
 	for w in arsenal:
 		arsenal.values()[current]._hide();
 
-func _process(_delta) -> void:
+func _physics_process(_delta) -> void:
 	# Call weapon function
 	_weapon(_delta);
 	_change();
