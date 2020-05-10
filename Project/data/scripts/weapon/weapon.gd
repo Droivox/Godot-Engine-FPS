@@ -58,7 +58,7 @@ class weapon:
 				bullets -= 1;
 				
 				# recoil
-				owner.camera.rotation.x = lerp(owner.camera.rotation.x, rand_range(1, 3), _delta);
+				owner.camera.rotation.x = lerp(owner.camera.rotation.x, rand_range(1, 2), _delta);
 				owner.camera.rotation.y = lerp(owner.camera.rotation.y, rand_range(-1, 1), _delta);
 				
 				# Shake the camera
