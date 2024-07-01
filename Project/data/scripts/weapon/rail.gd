@@ -8,5 +8,5 @@ func _ready() -> void:
 	timer = get_node(timer);
 	timer.connect("timeout", self, "queue_free");
 
-func _process(_delta) -> void:
-	translation -= (global_transform.basis.z * speed) * _delta;
+func _process(delta: float) -> void:
+	translation -= (global_transform.basis.z * speed) * delta;

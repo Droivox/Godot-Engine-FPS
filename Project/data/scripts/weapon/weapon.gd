@@ -47,7 +47,7 @@ class weapon:
 	
 	func _sprint(sprint: bool, delta: float) -> void:
 		if sprint and owner.character.direction:
-			mesh.rotation.x = lerp(mesh.rotation.x, rot_to, 5 * delta)
+			mesh.rotation.x = lerp(mesh.rotation.x, rot_to, 5.0 * delta)
 		else:
 			mesh.rotation.x = lerp(mesh.rotation.x, 0.0, 5.0 * delta)
 	
@@ -176,8 +176,8 @@ class weapon:
 	func _update(delta: float) -> void:
 		if animc != "Shoot":
 			if owner.arsenal.values()[owner.current] == self:
-				owner.camera.rotation.x = lerp(owner.camera.rotation.x, 0, 10 * delta)
-				owner.camera.rotation.y = lerp(owner.camera.rotation.y, 0, 10 * delta)
+				owner.camera.rotation.x = lerp(owner.camera.rotation.x, 0, 10.0 * delta)
+				owner.camera.rotation.y = lerp(owner.camera.rotation.y, 0, 10.0 * delta)
 
 		# Get current animation
 		animc = anim.current_animation
@@ -186,7 +186,7 @@ class weapon:
 		var effect = owner.get_node("{}/effect".format([name], "{}"))
 
 		# Change light energy
-		effect.get_node("shoot").light_energy = lerp(effect.get_node("shoot").light_energy, 0, 5 * delta)
+		effect.get_node("shoot").light_energy = lerp(effect.get_node("shoot").light_energy, 0.0, 5.0 * delta)
 
 		# Remove recoil
 		mesh.rotation.x = lerp(mesh.rotation.x, 0.0, 5.0 * delta)
