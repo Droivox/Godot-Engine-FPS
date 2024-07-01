@@ -176,6 +176,7 @@ one_shot = true
 [node name="ex" type="Particles" parent="effects"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 cast_shadow = 0
+emitting = false
 amount = 50
 one_shot = true
 process_material = SubResource( 9 )
@@ -183,6 +184,7 @@ draw_pass_1 = SubResource( 11 )
 
 [node name="plo" type="Particles" parent="effects"]
 cast_shadow = 0
+emitting = false
 amount = 50
 one_shot = true
 speed_scale = 2.0
@@ -192,6 +194,7 @@ draw_pass_1 = SubResource( 14 )
 
 [node name="sion" type="Particles" parent="effects"]
 cast_shadow = 0
+emitting = false
 amount = 50
 lifetime = 1.5
 one_shot = true
