@@ -6,6 +6,8 @@ var fullscreen : bool = false
 # All debug inputs
 var input : Dictionary = {}
 
+var default_position = Vector2(5.0, 5.0)
+
 func _process(_delta) -> void:
 	# Calls the function to switch to fullscren or window with Alt and Enter
 	_toggle_fullscreen()
@@ -61,7 +63,7 @@ func _display_framerate() -> void:
 		framerate_label.name = "framerate_label"
 
 		# Changes the position of the framerate label
-		framerate_label.rect_position = Vector2(5, 5)
+		framerate_label.rect_position = default_position
 
 		# Changes the color of the framerate label
 		framerate_label.add_color_override("font_color", ColorN("black"))
