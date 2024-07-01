@@ -49,13 +49,18 @@ func _movement(delta: float) -> void:
 		velocity.y += -gravity * delta
 
 	var basis = $"head".global_transform.basis
-	direction += (-input["left"]    + input["right"]) * basis.x
-	direction += (-input["foward"]  +  input["back"]) * basis.z
+	direction += (-input["left"]   + input["right"]) * basis.x
+	direction += (-input["foward"] +  input["back"]) * basis.z
 
-	direction.y = 0; direction = direction.normalized()
+	direction.y = 0
+
+	direction = direction.normalized()
 
 	# Interpolates between the current position and the future position of the character
-	var target = direction * n_speed; direction.y = 0
+	var target = direction * n_speed
+
+	direction.y = 0
+
 	var temp_velocity = velocity.linear_interpolate(target, n_speed * delta)
 
 	# Applies interpolation to the velocity vector

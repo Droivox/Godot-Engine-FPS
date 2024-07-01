@@ -5,6 +5,7 @@ export(NodePath) var weapon_hud
 export(NodePath) var crosshair
 
 var viewport
+var off = Vector2(180.0, 80.0)
 
 func _ready():
 	viewport = get_viewport()
@@ -17,7 +18,6 @@ func _process(_delta) -> void:
 	_crosshair()
 
 func _weapon_hud() -> void:
-	var off = Vector2(180.0, 80.0)
 	weapon_hud.position = viewport.size - off
 
 	var data = weapon.arsenal.values()[weapon.current]
