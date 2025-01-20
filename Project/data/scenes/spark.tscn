@@ -50,7 +50,6 @@ explosiveness = 0.5
 process_material = SubResource( 1 )
 draw_pass_1 = SubResource( 3 )
 script = ExtResource( 2 )
-timer = NodePath("timer")
 
 [node name="timer" type="Timer" parent="."]
 wait_time = 0.3

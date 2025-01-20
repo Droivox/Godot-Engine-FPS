@@ -22,8 +22,8 @@ surfaces/0 = {
 }
 
 [sub_resource type="CylinderShape" id=2]
-radius = 0.713798
 height = 2.28251
+radius = 0.713798
 
 [sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.503704, 1 )
@@ -153,10 +153,7 @@ size = Vector2( 0.4, 0.4 )
 [sub_resource type="SphereShape" id=20]
 radius = 6.0
 
-[node name="barrel" type="RigidBody" groups=[
-"metal",
-"prop",
-]]
+[node name="barrel" type="RigidBody" groups=["metal", "prop"]]
 mass = 6.0
 script = ExtResource( 2 )
 
@@ -166,7 +163,6 @@ transform = Transform( 0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, 0 )
 [node name="Mesh" type="MeshInstance" parent="mesh"]
 transform = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0 )
 mesh = SubResource( 1 )
-material/0 = null
 
 [node name="collision" type="CollisionShape" parent="."]
 shape = SubResource( 2 )

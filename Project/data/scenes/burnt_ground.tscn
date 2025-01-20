@@ -3,7 +3,6 @@
 [ext_resource path="res://data/textures/burnt_ground.png" type="Texture" id=1]
 [ext_resource path="res://data/scripts/burnt_ground/burnt_ground.gd" type="Script" id=2]
 
-
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
 albedo_color = Color( 1, 1, 1, 0.588235 )
@@ -16,11 +15,9 @@ size = Vector2( 4, 4 )
 
 [node name="burnt_ground" type="Spatial"]
 script = ExtResource( 2 )
-ray = NodePath("ray")
 
 [node name="mesh" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
-material/0 = null
 
 [node name="ray" type="RayCast" parent="."]
 enabled = true

@@ -36,6 +36,7 @@ size = Vector3( 1, 6, 20 )
 [sub_resource type="SpatialMaterial" id=2]
 albedo_texture = ExtResource( 1 )
 uv1_triplanar = true
+uv1_triplanar_sharpness = 1.0
 
 [sub_resource type="ConvexPolygonShape" id=3]
 points = PoolVector3Array( -0.5, 3, 10, 0.5, 3, -10, 0.5, 3, 10, -0.5, 3, -10, -0.5, -3, 10, 0.5, -3, -10, 0.5, -3, 10, -0.5, -3, -10, 0.5, 3, 10, -0.5, 3, -10, 0.5, 3, -10, -0.5, 3, 10, 0.5, -3, 10, -0.5, -3, -10, 0.5, -3, -10, -0.5, -3, 10, 0.5, 3, 10, -0.5, -3, 10, -0.5, 3, 10, 0.5, -3, 10, 0.5, 3, -10, -0.5, -3, -10, -0.5, 3, -10, 0.5, -3, -10 )
@@ -43,6 +44,7 @@ points = PoolVector3Array( -0.5, 3, 10, 0.5, 3, -10, 0.5, 3, 10, -0.5, 3, -10, -
 [sub_resource type="SpatialMaterial" id=4]
 albedo_texture = ExtResource( 1 )
 uv1_triplanar = true
+uv1_triplanar_sharpness = 1.0
 
 [sub_resource type="CubeMesh" id=5]
 material = SubResource( 4 )
@@ -73,9 +75,7 @@ transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0, 1, 1
 
 [node name="scenario" type="Spatial" parent="."]
 
-[node name="wall" type="StaticBody" parent="scenario" groups=[
-"wallk",
-]]
+[node name="wall" type="StaticBody" parent="scenario" groups=["wallk"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 4, 8 )
 
 [node name="mesh" type="MeshInstance" parent="scenario/wall"]
@@ -87,14 +87,11 @@ material/0 = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 shape = SubResource( 3 )
 
-[node name="terrain" type="StaticBody" parent="scenario" groups=[
-"concrete",
-]]
+[node name="terrain" type="StaticBody" parent="scenario" groups=["concrete"]]
 
 [node name="mesh" type="MeshInstance" parent="scenario/terrain"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0358462, -0.01824, 0.0206671 )
 mesh = SubResource( 5 )
-material/0 = null
 
 [node name="collision" type="CollisionShape" parent="scenario/terrain"]
 shape = SubResource( 6 )

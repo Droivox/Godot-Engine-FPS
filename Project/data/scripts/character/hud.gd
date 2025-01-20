@@ -1,41 +1,46 @@
 extends CanvasLayer
 
-export(NodePath) var weapon
-export(NodePath) var weapon_hud
-export(NodePath) var crosshair
 
-var viewport
-var off = Vector2(180.0, 80.0)
+onready var weapons: Weapons = get_node("%weapons")
+onready var weapon_hud: Node2D = get_node("%weapon_hud")
+onready var weapon_name: Label = get_node("%weapon_hud/name")
+onready var weapon_ammo: Label = get_node("%weapon_hud/ammo")
+onready var hud_bullets: Label = get_node("%weapon_hud/bullets")
+onready var crosshair: Sprite = get_node("%crosshair")
 
-func _ready():
-	viewport = get_viewport()
-	weapon = get_node(weapon)
-	weapon_hud = get_node(weapon_hud)
-	crosshair = get_node(crosshair)
+var off: Vector2 = Vector2(180.0, 80.0)
 
-func _process(_delta) -> void:
+
+func _process(_delta: float) -> void:
 	_weapon_hud()
 	_crosshair()
 
+
 func _weapon_hud() -> void:
-	weapon_hud.position = viewport.size - off
+	weapon_hud.position = get_viewport().size - off
 
-	var data = weapon.arsenal.values()[weapon.current]
-	var color
+	var arsenals: Array = weapons.arsenal.values()
+	var current_arsenal = arsenals[weapons.current]
 
-	weapon_hud.get_node("name").text = str(data.name)
-	weapon_hud.get_node("bullets").text = str(data.bullets)
-	weapon_hud.get_node("ammo").text = str(data.ammo)
+	var bullets = current_arsenal.bullets
+	var max_bullets = current_arsenal.max_bullets
+
+	hud_bullets.text = str(bullets)
+	weapon_name.text = str(current_arsenal.name)
+	weapon_ammo.text = str(current_arsenal.ammo)
 
 	# Color
-	if data.bullets < (data.max_bullets / 4.0):
+	var color: Color
+
+	if bullets < (max_bullets/4.0):
 		color = Color("#ff0000")
-	elif data.bullets < (data.max_bullets / 2.0):
+	elif bullets < (max_bullets/2.0):
 		color = Color("#dd761b")
 	else:
 		color = Color("#ffffff")
 
-	weapon_hud.get_node("bullets").add_color_override("font_color", color)
+	hud_bullets.add_color_override("font_color", color)
+
 
 func _crosshair() -> void:
-	crosshair.position = viewport.size / 2.0;
+	crosshair.position = get_viewport().size/2.0

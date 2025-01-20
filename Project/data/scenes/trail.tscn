@@ -18,7 +18,6 @@ emission_on_uv2 = false
 
 [node name="trail" type="Spatial"]
 script = ExtResource( 1 )
-timer = NodePath("../trail/timer")
 
 [node name="mesh" type="MeshInstance" parent="."]
 cast_shadow = 0

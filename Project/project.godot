@@ -8,8 +8,26 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Camera",
+"class": "CharacterCamera",
+"language": "GDScript",
+"path": "res://data/scripts/character/camera.gd"
+}, {
+"base": "KinematicBody",
+"class": "MovementPlayer",
+"language": "GDScript",
+"path": "res://data/scripts/character/movement.gd"
+}, {
+"base": "Spatial",
+"class": "Weapons",
+"language": "GDScript",
+"path": "res://data/scripts/weapon/weapons.gd"
+} ]
 _global_script_class_icons={
+"CharacterCamera": "",
+"MovementPlayer": "",
+"Weapons": ""
 }
 
 [application]
@@ -94,7 +112,7 @@ KEY_F6={
 }
 mb_left={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 KEY_R={
@@ -104,7 +122,7 @@ KEY_R={
 }
 mb_right={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 KEY_Q={
