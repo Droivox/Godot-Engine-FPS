@@ -1,33 +1,46 @@
 extends CanvasLayer
 
-export(NodePath) var weapon;
-export(NodePath) var weapon_hud;
-export(NodePath) var crosshair;
 
-func _ready():
-	weapon = get_node(weapon);
-	weapon_hud = get_node(weapon_hud);
-	crosshair = get_node(crosshair);
+onready var weapons: Weapons = get_node("%weapons")
+onready var weapon_hud: Node2D = get_node("%weapon_hud")
+onready var weapon_name: Label = get_node("%weapon_hud/name")
+onready var weapon_ammo: Label = get_node("%weapon_hud/ammo")
+onready var hud_bullets: Label = get_node("%weapon_hud/bullets")
+onready var crosshair: Sprite = get_node("%crosshair")
 
-func _process(_delta) -> void:
+var off: Vector2 = Vector2(180.0, 80.0)
+
+
+func _process(_delta: float) -> void:
 	_weapon_hud()
 	_crosshair()
 
+
 func _weapon_hud() -> void:
-	var off = Vector2(180, 80);
-	weapon_hud.position = get_viewport().size - off;
-	
-	weapon_hud.get_node("name").text = str(weapon.arsenal.values()[weapon.current].name);
-	weapon_hud.get_node("bullets").text = str(weapon.arsenal.values()[weapon.current].bullets);
-	weapon_hud.get_node("ammo").text = str(weapon.arsenal.values()[weapon.current].ammo);
-	
+	weapon_hud.position = get_viewport().size - off
+
+	var arsenals: Array = weapons.arsenal.values()
+	var current_arsenal = arsenals[weapons.current]
+
+	var bullets = current_arsenal.bullets
+	var max_bullets = current_arsenal.max_bullets
+
+	hud_bullets.text = str(bullets)
+	weapon_name.text = str(current_arsenal.name)
+	weapon_ammo.text = str(current_arsenal.ammo)
+
 	# Color
-	if weapon.arsenal.values()[weapon.current].bullets < (weapon.arsenal.values()[weapon.current].max_bullets/4):
-		weapon_hud.get_node("bullets").add_color_override("font_color", Color("#ff0000"));
-	elif weapon.arsenal.values()[weapon.current].bullets < (weapon.arsenal.values()[weapon.current].max_bullets/2):
-		weapon_hud.get_node("bullets").add_color_override("font_color", Color("#dd761b"));
+	var color: Color
+
+	if bullets < (max_bullets/4.0):
+		color = Color("#ff0000")
+	elif bullets < (max_bullets/2.0):
+		color = Color("#dd761b")
 	else:
-		weapon_hud.get_node("bullets").add_color_override("font_color", Color("#ffffff"));
+		color = Color("#ffffff")
+
+	hud_bullets.add_color_override("font_color", color)
+
 
 func _crosshair() -> void:
-	crosshair.position = get_viewport().size/2;
+	crosshair.position = get_viewport().size/2.0
