@@ -9,10 +9,10 @@ var w_speed: float = 8.0  # Walking
 var c_speed: float = 10.0 # Crouch
 
 # Physics variables
-var gravity: float         = 50.0 # Gravity force
-var jump_height: float     = 15.0 # Jump height
-var friction: float        = 25.0 # friction
-var floor_max_angle: float = PI/4.0
+var gravity: float     = 50.0 # Gravity force
+var jump_height: float = 15.0 # Jump height
+var friction: float    = 25.0 # friction
+var max_angle: float   = PI/4.0
 
 # All vectors
 var linear_velocity: Vector3 = Vector3() # Velocity vector
@@ -81,7 +81,7 @@ func _movement(delta: float) -> void:
 	linear_velocity.z = temp_linear_velocity.z
 
 	# Calls the motion function by passing the linear_velocity vector
-	linear_velocity = move_and_slide(linear_velocity, player_up, false, 4, floor_max_angle, false)
+	linear_velocity = move_and_slide(linear_velocity, player_up, false, 4, max_angle, false)
 
 
 

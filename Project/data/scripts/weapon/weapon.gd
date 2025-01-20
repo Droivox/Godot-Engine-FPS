@@ -16,6 +16,10 @@ class Weapon:
 	var arsenal: Dictionary
 	var lerp_speed: float = 30.0
 	var decal_base: Vector3 = Vector3(1.0, 1.0, 0.0)
+	var trail_scene: PackedScene = preload("res://data/scenes/trail.tscn")
+	var spark_scene: PackedScene = preload("res://data/scenes/spark.tscn")
+	var decal_scene: PackedScene = preload("res://data/scenes/decal.tscn")
+
 
 	func _init(
 		_owner: Weapons,
@@ -109,7 +113,7 @@ class Weapon:
 				var main = root.get_child(0)
 
 				# Create a instance of trail scene
-				var trail = preload("res://data/scenes/trail.tscn").instance()
+				var trail = trail_scene.instance()
 
 				# Change trail position to out of barrel position
 				trail.translation = barrel.global_transform.origin
@@ -125,32 +129,33 @@ class Weapon:
 
 				# Check raycast is colliding
 				if ray.is_colliding():
-					var local_damage = int(rand_range(damage/1.5, damage))
+					var local_damage: int = int(rand_range(damage/1.5, damage))
+					var collider = ray.get_collider()
 
 					# Do damage
-					if ray.get_collider() is RigidBody:
-						ray.get_collider().apply_central_impulse(-ray.get_collision_normal() * (local_damage * 0.3))
+					if collider is RigidBody:
+						collider.apply_central_impulse(-ray.get_collision_normal() * (local_damage * 0.3))
 
-					if ray.get_collider().is_in_group("prop"):
-						if ray.get_collider().is_in_group("metal"):
-							var spark: Particles = preload("res://data/scenes/spark.tscn").instance()
+					if collider.is_in_group("prop"):
+						if collider.is_in_group("metal"):
+							var spark: Particles = spark_scene.instance()
 
 							# Add spark scene in collider
-							ray.get_collider().add_child(spark)
+							collider.add_child(spark)
 
 							# Change spark position to collider position
 							spark.global_transform.origin = ray.get_collision_point()
 
 							spark.emitting = true
 
-						if ray.get_collider().has_method("_damage"):
-							ray.get_collider()._damage(local_damage)
+						if collider.has_method("_damage"):
+							collider._damage(local_damage)
 
 					# Create a instance of decal scene
-					var decal: Spatial = preload("res://data/scenes/decal.tscn").instance()
+					var decal: Spatial = decal_scene.instance()
 
 					# Add decal scene in collider
-					ray.get_collider().add_child(decal)
+					collider.add_child(decal)
 
 					# Change decal position to collider position
 					decal.global_transform.origin = ray.get_collision_point()

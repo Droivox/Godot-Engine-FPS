@@ -27,7 +27,7 @@ func _mouse_toggle() -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
-func _camera_rotation(event) -> void:
+func _camera_rotation(event: InputEvent) -> void:
 	# If the mouse is locked
 	if captured:
 		#var camera: Dictionary = {0: $".", 1: $"."}
@@ -48,6 +48,6 @@ func _camera_rotation(event) -> void:
 		rotation.x = max(rotation.x, -max_angle)
 
 
-func _input(event) -> void:
+func _input(event: InputEvent) -> void:
 	# Calls the function to rotate the camera
 	_camera_rotation(event)

@@ -31,7 +31,7 @@ func _toggle_fullscreen() -> void:
 		input_alt = Input.is_action_pressed("KEY_ALT")
 
 		if input_alt and input_enter:
-			fullscreen = !fullscreen
+			fullscreen = not fullscreen
 
 			OS.window_fullscreen = fullscreen
 
@@ -51,4 +51,4 @@ func _reload_scene() -> void:
 	# If I press the reload button
 	if input_reload:
 		# Reload the scene
-		print(get_tree().reload_current_scene())
+		get_tree().reload_current_scene()

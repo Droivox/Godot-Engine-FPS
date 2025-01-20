@@ -5,6 +5,7 @@ export var durability: int = 100
 export var damage_distance: int = 300
 
 var remove_decal: bool = false
+var burnt_ground_scene: PackedScene = preload("res://data/scenes/burnt_ground.tscn")
 
 onready var root = get_tree().get_root()
 
@@ -49,7 +50,7 @@ func _explosion() -> void:
 	collision.disabled = true
 	
 	var main: Node = root.get_child(0)
-	var burnt_ground: Spatial = preload("res://data/scenes/burnt_ground.tscn").instance()
+	var burnt_ground: Spatial = burnt_ground_scene.instance()
 
 	main.add_child(burnt_ground)
 	burnt_ground.translation = global_transform.origin
