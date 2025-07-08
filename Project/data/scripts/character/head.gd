@@ -1,12 +1,14 @@
-extends Spatial
+extends Node3D
 
-export(NodePath) var character;
+@export var character: NodePath;
+var character_node: Node;
 
-export var sensibility : float = 0.2;  # Mouse sensitivity
-export var captured : bool = true; # Does not let the mouse leave the screen
+@export var sensibility : float = 0.2;  # Mouse sensitivity
+@export var captured : bool = true; # Does not let the mouse leave the screen
 
 func _ready():
-	character = get_node(character);
+	if character != NodePath():
+		character_node = get_node(character);
 
 func _physics_process(_delta) -> void:
 	# Calls function to switch between locked and unlocked mouse
@@ -32,15 +34,15 @@ func _camera_rotation(_event) -> void:
 		
 		if _event is InputEventMouseMotion:
 			# Rotates the camera on the x axis
-			camera[0].rotation.x += -deg2rad(_event.relative.y * sensibility);
+			camera[0].rotation.x += -deg_to_rad(_event.relative.y * sensibility);
 			
 			# Rotates the camera on the y axis
-			camera[1].rotation.y += -deg2rad(_event.relative.x * sensibility);
+			camera[1].rotation.y += -deg_to_rad(_event.relative.x * sensibility);
 		
 		# Creates a limit for the camera on the x axis
 		var max_angle: int = 85; # Maximum camera angle
-		camera[0].rotation.x = min(camera[0].rotation.x,  deg2rad(max_angle))
-		camera[0].rotation.x = max(camera[0].rotation.x, -deg2rad(max_angle))
+		camera[0].rotation.x = min(camera[0].rotation.x,  deg_to_rad(max_angle))
+		camera[0].rotation.x = max(camera[0].rotation.x, -deg_to_rad(max_angle))
 
 func _input(_event) -> void:
 	# Calls the function to rotate the camera

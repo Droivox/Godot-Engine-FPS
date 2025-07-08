@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/2.ogg-568fa7f6eb5ba1582cb2f91c3e257c27.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bfdwkok3gxh8c"
+path="res://.godot/imported/2.ogg-568fa7f6eb5ba1582cb2f91c3e257c27.oggvorbisstr"
 
 [deps]
 
 source_file="res://data/audios/character/footsteep/grass/2.ogg"
-dest_files=[ "res://.import/2.ogg-568fa7f6eb5ba1582cb2f91c3e257c27.oggstr" ]
+dest_files=["res://.godot/imported/2.ogg-568fa7f6eb5ba1582cb2f91c3e257c27.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

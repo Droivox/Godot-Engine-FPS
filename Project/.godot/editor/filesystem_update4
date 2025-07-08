@@ -1,0 +1,15 @@
+res://default_env.tres
+res://data/scenes/main.tscn
+res://data/scripts/burnt_ground/burnt_ground.gd
+res://data/scripts/character/animation.gd
+res://data/scripts/character/footsteep.gd
+res://data/scripts/character/head.gd
+res://data/scripts/character/hud.gd
+res://data/scripts/effects/spark/spark.gd
+res://data/scripts/weapon/decal.gd
+res://data/scripts/weapon/rail.gd
+res://data/scripts/weapon/weapons.gd
+res://data/scripts/character/movement.gd
+res://data/scripts/barrel/barrel.gd
+res://data/scripts/weapon/weapon.gd
+res://data/scripts/effects/fade/fade.gd

@@ -1,33 +1,41 @@
 extends CanvasLayer
 
-export(NodePath) var weapon;
-export(NodePath) var weapon_hud;
-export(NodePath) var crosshair;
+@export var weapon: NodePath;
+@export var weapon_hud: NodePath;
+@export var crosshair: NodePath;
+
+var weapon_node: Node;
+var weapon_hud_node: Node;
+var crosshair_node: Node;
 
 func _ready():
-	weapon = get_node(weapon);
-	weapon_hud = get_node(weapon_hud);
-	crosshair = get_node(crosshair);
+	if weapon != NodePath():
+		weapon_node = get_node(weapon);
+	if weapon_hud != NodePath():
+		weapon_hud_node = get_node(weapon_hud);
+	if crosshair != NodePath():
+		crosshair_node = get_node(crosshair);
 
 func _process(_delta) -> void:
-	_weapon_hud()
-	_crosshair()
+	if weapon_node and weapon_hud_node and crosshair_node:
+		_weapon_hud()
+		_crosshair()
 
 func _weapon_hud() -> void:
 	var off = Vector2(180, 80);
-	weapon_hud.position = get_viewport().size - off;
+	weapon_hud_node.position = Vector2(get_viewport().size) - off;
 	
-	weapon_hud.get_node("name").text = str(weapon.arsenal.values()[weapon.current].name);
-	weapon_hud.get_node("bullets").text = str(weapon.arsenal.values()[weapon.current].bullets);
-	weapon_hud.get_node("ammo").text = str(weapon.arsenal.values()[weapon.current].ammo);
+	weapon_hud_node.get_node("name").text = str(weapon_node.arsenal.values()[weapon_node.current].name);
+	weapon_hud_node.get_node("bullets").text = str(weapon_node.arsenal.values()[weapon_node.current].bullets);
+	weapon_hud_node.get_node("ammo").text = str(weapon_node.arsenal.values()[weapon_node.current].ammo);
 	
 	# Color
-	if weapon.arsenal.values()[weapon.current].bullets < (weapon.arsenal.values()[weapon.current].max_bullets/4):
-		weapon_hud.get_node("bullets").add_color_override("font_color", Color("#ff0000"));
-	elif weapon.arsenal.values()[weapon.current].bullets < (weapon.arsenal.values()[weapon.current].max_bullets/2):
-		weapon_hud.get_node("bullets").add_color_override("font_color", Color("#dd761b"));
+	if weapon_node.arsenal.values()[weapon_node.current].bullets < (weapon_node.arsenal.values()[weapon_node.current].max_bullets/4):
+		weapon_hud_node.get_node("bullets").add_theme_color_override("font_color", Color.RED);
+	elif weapon_node.arsenal.values()[weapon_node.current].bullets < (weapon_node.arsenal.values()[weapon_node.current].max_bullets/2):
+		weapon_hud_node.get_node("bullets").add_theme_color_override("font_color", Color.ORANGE);
 	else:
-		weapon_hud.get_node("bullets").add_color_override("font_color", Color("#ffffff"));
+		weapon_hud_node.get_node("bullets").add_theme_color_override("font_color", Color.WHITE);
 
 func _crosshair() -> void:
-	crosshair.position = get_viewport().size/2;
+	crosshair_node.position = Vector2(get_viewport().size)/2;

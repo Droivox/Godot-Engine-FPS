@@ -1,16 +1,21 @@
-extends Spatial
+extends Node3D
 
 # Get character's node path
-export(NodePath) var character;
+@export var character: NodePath;
 
 # Get head's node path
-export(NodePath) var head;
+@export var head: NodePath;
 
 # Get camera's node path
-export(NodePath) var neck;
+@export var neck: NodePath;
 
 # Get camera's node path
-export(NodePath) var camera;
+@export var camera: NodePath;
+
+var character_node: Node;
+var head_node: Node;
+var neck_node: Node;
+var camera_node: Node;
 
 # Load weapon class for make weapons
 var weapon = load("res://data/scripts/weapon/weapon.gd");
@@ -25,19 +30,16 @@ var current : int = 0;
 var input : Dictionary = {};
 
 func _ready() -> void:
-	set_as_toplevel(true);
+	set_as_top_level(true);
 	
-	# Get camera node from path
-	camera = get_node(camera);
-	
-	# Get neck node from path
-	neck = get_node(neck);
-	
-	# Get head node from path
-	head = get_node(head);
-	
-	# Get head node from path
-	character = get_node(character);
+	if character != NodePath():
+		character_node = get_node(character);
+	if head != NodePath():
+		head_node = get_node(head);
+	if neck != NodePath():
+		neck_node = get_node(neck);
+	if camera != NodePath():
+		camera_node = get_node(camera);
 	
 	# Class reference : 
 	# owner, name, firerate, bullets, ammo, max_bullets, damage, reload_speed;
@@ -54,7 +56,13 @@ func _ready() -> void:
 	for w in arsenal:
 		arsenal.values()[current]._hide();
 
+func get_camera_node() -> Node:
+	return camera_node;
+
 func _physics_process(_delta) -> void:
+	if not character_node or not head_node or not camera_node:
+		return
+		
 	# Call weapon function
 	_weapon(_delta);
 	_change();
@@ -65,9 +73,9 @@ func _weapon(_delta) -> void:
 	input["reload"] = int(Input.is_action_pressed("KEY_R"));
 	input["zoom"] = int(Input.is_action_pressed("mb_right"));
 	
-	arsenal.values()[current]._sprint(character.input["sprint"] or character.input["jump"], _delta);
+	arsenal.values()[current]._sprint(character_node.input["sprint"] or character_node.input["jump"], _delta);
 	
-	if not character.input["sprint"] or not character.direction:
+	if not character_node.input["sprint"] or not character_node.direction:
 		if input["shoot"]:
 			arsenal.values()[current]._shoot(_delta);
 		
@@ -92,13 +100,13 @@ func _position(_delta) -> void:
 	var y_lerp = 20;
 	var x_lerp = 40;
 	
-	global_transform.origin = head.global_transform.origin;
+	global_transform.origin = head_node.global_transform.origin;
 	
 	if not input["zoom"]:
-		rotation.x = lerp_angle(rotation.x, camera.global_transform.basis.get_euler().x, y_lerp * _delta);
-		rotation.y = lerp_angle(rotation.y, camera.global_transform.basis.get_euler().y, x_lerp * _delta);
+		rotation.x = lerp_angle(rotation.x, camera_node.global_transform.basis.get_euler().x, y_lerp * _delta);
+		rotation.y = lerp_angle(rotation.y, camera_node.global_transform.basis.get_euler().y, x_lerp * _delta);
 	else:
-		rotation = camera.global_transform.basis.get_euler();
+		rotation = camera_node.global_transform.basis.get_euler();
 
 func _unhandled_input(event):
 	if event is InputEventKey:
@@ -106,9 +114,9 @@ func _unhandled_input(event):
 			var anim = arsenal.values()[current].anim
 			
 			if not anim.is_playing():
-				if event.scancode == KEY_1:
+				if event.keycode == KEY_1:
 					current = 0;
-				if event.scancode == KEY_2:
+				if event.keycode == KEY_2:
 					current = 1;
-				if event.scancode == KEY_3:
+				if event.keycode == KEY_3:
 					current = 2;

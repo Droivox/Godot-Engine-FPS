@@ -46,7 +46,7 @@ func _toggle_fullscreen() -> void:
 			if input['alt'] and input['enter']:
 				fullscreen = !fullscreen;
 				
-				OS.window_fullscreen = fullscreen;
+				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if fullscreen else Window.MODE_WINDOWED
 				
 				# Starts the timer again
 				timer.start();
@@ -61,10 +61,10 @@ func _display_framerate() -> void:
 		framerate_label.name = "framerate_label";
 		
 		# Changes the position of the framerate label
-		framerate_label.rect_position = Vector2(5, 5)
+		framerate_label.position = Vector2(5, 5)
 		
 		# Changes the color of the framerate label
-		framerate_label.add_color_override("font_color", ColorN("black"))
+		framerate_label.add_theme_color_override("font_color", Color.BLACK)
 		
 		# Adds the framerate label to the debug
 		add_child(framerate_label);

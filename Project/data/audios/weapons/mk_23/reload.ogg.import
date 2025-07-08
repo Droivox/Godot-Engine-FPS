@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/reload.ogg-270c8d98409841561732d12653c85b48.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bepmcob24eki4"
+path="res://.godot/imported/reload.ogg-270c8d98409841561732d12653c85b48.oggvorbisstr"
 
 [deps]
 
 source_file="res://data/audios/weapons/mk_23/reload.ogg"
-dest_files=[ "res://.import/reload.ogg-270c8d98409841561732d12653c85b48.oggstr" ]
+dest_files=["res://.godot/imported/reload.ogg-270c8d98409841561732d12653c85b48.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

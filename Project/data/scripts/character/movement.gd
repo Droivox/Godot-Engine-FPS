@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 
 # All speed variables
 var n_speed : float = 04; # Normal
@@ -12,7 +12,6 @@ var jump_height  : float = 15; # Jump height
 var friction     : float = 25; # friction
 
 # All vectors
-var velocity     : = Vector3(); # Velocity vector
 var direction    : = Vector3(); # Direction Vector
 var acceleration : = Vector3(); # Acceleration Vector
 
@@ -43,7 +42,7 @@ func _movement(_delta) -> void:
 	if is_on_floor():
 		direction = Vector3();
 	else:
-		direction = direction.linear_interpolate(Vector3(), friction * _delta);
+		direction = direction.lerp(Vector3(), friction * _delta);
 		
 		# Applies gravity
 		velocity.y += -gravity * _delta;
@@ -56,14 +55,20 @@ func _movement(_delta) -> void:
 	
 	# Interpolates between the current position and the future position of the character
 	var target = direction * n_speed; direction.y = 0;
-	var temp_velocity = velocity.linear_interpolate(target, n_speed * _delta);
+	var temp_velocity = velocity.lerp(target, n_speed * _delta);
 	
 	# Applies interpolation to the velocity vector
 	velocity.x = temp_velocity.x;
 	velocity.z = temp_velocity.z;
 	
 	# Calls the motion function by passing the velocity vector
-	velocity = move_and_slide(velocity, Vector3(0, 1, 0), false, 4, PI/4, false);
+	set_velocity(velocity)
+	set_up_direction(Vector3(0, 1, 0))
+	set_floor_stop_on_slope_enabled(false)
+	set_max_slides(4)
+	set_floor_max_angle(PI/4)
+	move_and_slide()
+	velocity = velocity;
 
 func _crouch(_delta) -> void:
 	# Inputs
@@ -81,7 +86,7 @@ func _crouch(_delta) -> void:
 		var shape = collision.shape.height;
 		
 		# Changes the shape of the character's collision
-		shape = lerp(shape, 2 - (input["crouch"] * 1.5), c_speed  * _delta);
+		shape = lerp(shape, 2.0 - (float(input["crouch"]) * 1.5), c_speed * _delta);
 		
 		# Apply the new character collision shape
 		collision.shape.height = shape;
@@ -102,10 +107,10 @@ func _sprint(_delta) -> void:
 	# Make the character sprint
 	if not input["crouch"]: # If you are not crouching
 		# switch between sprint and walking
-		var toggle_speed : float = w_speed + ((s_speed - w_speed) * input["sprint"])
+		var toggle_speed : float = w_speed + ((s_speed - w_speed) * float(input["sprint"]))
 		
 		# Create a character speed interpolation
-		n_speed = lerp(n_speed, toggle_speed, 3 * _delta);
+		n_speed = lerp(n_speed, toggle_speed, 3.0 * _delta);
 	else:
 		# Create a character speed interpolation
 		n_speed = lerp(n_speed, w_speed, _delta);

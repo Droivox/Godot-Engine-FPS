@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://data/textures/burnt_ground.png" type="Texture" id=1]
+[ext_resource path="res://data/textures/burnt_ground.png" type="Texture2D" id=1]
 [ext_resource path="res://data/scripts/burnt_ground/burnt_ground.gd" type="Script" id=2]
 
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 flags_transparent = true
 albedo_color = Color( 1, 1, 1, 0.588235 )
 albedo_texture = ExtResource( 1 )
@@ -14,14 +14,14 @@ metallic_specular = 0.0
 material = SubResource( 1 )
 size = Vector2( 4, 4 )
 
-[node name="burnt_ground" type="Spatial"]
+[node name="burnt_ground" type="Node3D"]
 script = ExtResource( 2 )
 ray = NodePath("ray")
 
-[node name="mesh" type="MeshInstance" parent="."]
+[node name="mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="ray" type="RayCast" parent="."]
+[node name="ray" type="RayCast3D" parent="."]
 enabled = true
-cast_to = Vector3( 0, -100, 0 )
+target_position = Vector3( 0, -100, 0 )
