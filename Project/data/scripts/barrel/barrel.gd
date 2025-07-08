@@ -1,17 +1,17 @@
-extends RigidBody
+extends RigidBody3D
 
-export var durability : int = 100;
+@export var durability : int = 100;
 var remove_decal : bool = false;
 
 func _ready():
-	$timer.connect("timeout", self, "queue_free");
-	$explosion/timer.connect("timeout", self, "_explode_others");
+	$timer.connect("timeout", Callable(self, "queue_free"));
+	$explosion/timer.connect("timeout", Callable(self, "_explode_others"));
 
 func _damage(damage) -> void:
 	if durability > 0:
 		var dam_calc = durability - damage;
 		
-		$audios/impact.pitch_scale = rand_range(0.9, 1.1);
+		$audios/impact.pitch_scale = randf_range(0.9, 1.1);
 		$audios/impact.play()
 		
 		if dam_calc <= 0:
@@ -30,17 +30,17 @@ func _explosion() -> void:
 	
 	var main = get_tree().get_root().get_child(0);
 	
-	var burnt_ground = preload("res://data/scenes/burnt_ground.tscn").instance();
+	var burnt_ground = preload("res://data/scenes/burnt_ground.tscn").instantiate();
 	main.add_child(burnt_ground);
-	burnt_ground.translation = global_transform.origin;
+	burnt_ground.position = global_transform.origin;
 	
-	mode = MODE_STATIC;
+	freeze_mode = RigidBody3D.FREEZE_MODE_STATIC;
 	
 	$mesh.visible = false;
 	$effects/ex.emitting = true;
 	$effects/plo.emitting = true;
 	$effects/sion.emitting = true;
-	$audios/explosion.pitch_scale = rand_range(0.9, 1.1);
+	$audios/explosion.pitch_scale = randf_range(0.9, 1.1);
 	$audios/explosion.play();
 	
 	remove_decal = true;

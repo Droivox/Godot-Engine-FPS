@@ -1,12 +1,14 @@
-extends Spatial
+extends Node3D
 
 var speed : float = 200;
-export(NodePath) var timer;
+@export var timer: NodePath;
+var timer_node: Node;
 
 func _ready() -> void:
-	$mesh.translation.z = -$mesh.mesh.mid_height/2;
-	timer = get_node(timer);
-	timer.connect("timeout", self, "queue_free");
+	$mesh.position.z = -$mesh.mesh.height/2;
+	if timer != NodePath():
+		timer_node = get_node(timer);
+		timer_node.connect("timeout", Callable(self, "queue_free"));
 
 func _process(_delta) -> void:
-	translation -= (global_transform.basis.z * speed) * _delta;
+	position -= (global_transform.basis.z * speed) * _delta;

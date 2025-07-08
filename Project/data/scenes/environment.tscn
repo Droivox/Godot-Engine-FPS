@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[sub_resource type="ProceduralSky" id=1]
+[sub_resource type="Sky" id=1]
 sun_latitude = 39.24
 sun_curve = 0.246229
 
@@ -13,7 +13,7 @@ fog_sun_color = Color( 1, 1, 1, 1 )
 tonemap_mode = 2
 auto_exposure_enabled = true
 auto_exposure_scale = 0.25
-ss_reflections_enabled = true
+ssr_enabled = true
 ssao_enabled = true
 ssao_intensity = 6.0
 ssao_quality = 2

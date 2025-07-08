@@ -8,6 +8,11 @@ class weapon:
 	var damage : int;
 	var reload_speed : float;
 	
+	# Node references - will be initialized when needed
+	var anim : Node;
+	var mesh : Node;
+	var animc : String;
+	
 	func _init(owner, name, firerate, bullets, ammo, max_bullets, damage, reload_speed) -> void:
 		self.owner = owner;
 		self.name = name;
@@ -17,40 +22,76 @@ class weapon:
 		self.max_bullets = max_bullets;
 		self.damage = damage;
 		self.reload_speed = reload_speed;
+		
+		# Initialize node references
+		if owner and name:
+			anim = owner.get_node("%s/mesh/anim" % name);
+			mesh = owner.get_node("%s" % name);
+			if anim:
+				animc = anim.current_animation;
 	
-	# Get animation node
-	var anim = owner.get_node("{}/mesh/anim".format([name], "{}"));
+	func _get_anim() -> Node:
+		if not anim and owner and name:
+			anim = owner.get_node("%s/mesh/anim" % name);
+		return anim;
 	
-	# Get current animation
-	var animc = anim.current_animation;
+	func _get_mesh() -> Node:
+		if not mesh and owner and name:
+			mesh = owner.get_node("%s" % name);
+		return mesh;
 	
-	# Get animation node
-	var mesh = owner.get_node("{}".format([name], "{}"));
+	func _get_camera() -> Node:
+		if owner and owner.has_method("get_camera_node"):
+			return owner.get_camera_node();
+		return null;
 	
 	func _draw() -> void:
+		var anim_node = _get_anim();
+		var mesh_node = _get_mesh();
+		if not anim_node or not mesh_node:
+			return;
+			
 		# Check is visible
-		if not mesh.visible:
+		if not mesh_node.visible:
 			# Play draw animaton
-			anim.play("Draw");
+			anim_node.play("Draw");
 	
 	func _hide() -> void:
+		var anim_node = _get_anim();
+		var mesh_node = _get_mesh();
+		if not anim_node or not mesh_node:
+			return;
+			
 		# Check is visible
-		if mesh.visible:
+		if mesh_node.visible:
 			# Play hide animaton
-			anim.play("Hide");
+			anim_node.play("Hide");
 	
 	func _sprint(sprint, _delta) -> void:
-		if sprint and owner.character.direction:
-			mesh.rotation.x = lerp(mesh.rotation.x, -deg2rad(40), 5 * _delta);
+		var mesh_node = _get_mesh();
+		if not mesh_node or not owner or not owner.character_node:
+			return;
+			
+		if sprint and owner.character_node.direction:
+			mesh_node.rotation.x = lerp(mesh_node.rotation.x, -deg_to_rad(40.0), 5.0 * _delta);
 		else:
-			mesh.rotation.x = lerp(mesh.rotation.x, 0, 5 * _delta);
+			mesh_node.rotation.x = lerp(mesh_node.rotation.x, 0.0, 5.0 * _delta);
 	
 	func _shoot(_delta) -> void:
+		if not owner or not name:
+			return;
+			
 		# Get audio node
-		var audio = owner.get_node("{}/audio".format([name], "{}"));
+		var audio = owner.get_node("%s/audio" % name);
 		
 		# Get effects node
-		var effect = owner.get_node("{}/effect".format([name], "{}"));
+		var effect = owner.get_node("%s/effect" % name);
+		
+		var anim_node = _get_anim();
+		if not anim_node:
+			return;
+			
+		var animc = anim_node.current_animation;
 		
 		if bullets > 0:
 			# Play shoot animation if not reloading
@@ -58,61 +99,67 @@ class weapon:
 				bullets -= 1;
 				
 				# recoil
-				owner.camera.rotation.x = lerp(owner.camera.rotation.x, rand_range(1, 2), _delta);
-				owner.camera.rotation.y = lerp(owner.camera.rotation.y, rand_range(-1, 1), _delta);
-				
-				# Shake the camera
-				owner.camera.shake_force = 0.002;
-				owner.camera.shake_time = 0.2;
+				var camera = _get_camera();
+				if camera:
+					camera.rotation.x = lerp(camera.rotation.x, randf_range(1.0, 2.0), _delta);
+					camera.rotation.y = lerp(camera.rotation.y, randf_range(-1.0, 1.0), _delta);
+					
+					# Shake the camera
+					camera.shake_force = 0.002;
+					camera.shake_time = 0.2;
 				
 				# Change light energy
-				effect.get_node("shoot").light_energy = 2;
-				
-				# Emitt fire particles
-				effect.get_node("fire").emitting = true;
-				
-				# Emitt smoke particles
-				effect.get_node("smoke").emitting = true;
+				if effect:
+					effect.get_node("shoot").light_energy = 2.0;
+					
+					# Emitt fire particles
+					effect.get_node("fire").emitting = true;
+					
+					# Emitt smoke particles
+					effect.get_node("smoke").emitting = true;
 				
 				# Play shoot sound
-				audio.get_node("shoot").pitch_scale = rand_range(0.9, 1.1);
-				audio.get_node("shoot").play();
+				if audio:
+					audio.get_node("shoot").pitch_scale = randf_range(0.9, 1.1);
+					audio.get_node("shoot").play();
 				
 				# Play shoot animation using firate speed
-				anim.play("Shoot", 0, firerate);
+				anim_node.play("Shoot", 0, firerate);
 				
 				# Get barrel node
-				var barrel = owner.get_node("{}/barrel".format([name], "{}"));
+				var barrel = owner.get_node("%s/barrel" % name);
 				
 				# Get main scene
 				var main = owner.get_tree().get_root().get_child(0);
 				
 				# Create a instance of trail scene
-				var trail = preload("res://data/scenes/trail.tscn").instance();
+				var trail = preload("res://data/scenes/trail.tscn").instantiate();
 				
 				# Change trail position to out of barrel position
-				trail.translation = barrel.global_transform.origin;
+				if barrel:
+					trail.position = barrel.global_transform.origin;
 				
 				# Change trail rotation to camera rotation
-				trail.rotation = owner.camera.global_transform.basis.get_euler();
+				if camera:
+					trail.rotation = camera.global_transform.basis.get_euler();
 				
 				# Add the trail to main scene
 				main.add_child(trail);
 				
 				# Get raycast weapon range
-				var ray = owner.get_node("{}/ray".format([name], "{}"));
+				var ray = owner.get_node("%s/ray" % name);
 				
 				# Check raycast is colliding
-				if ray.is_colliding():
-					var local_damage = int(rand_range(damage/1.5, damage))
+				if ray and ray.is_colliding():
+					var local_damage = int(randf_range(damage/1.5, damage))
 					
 					# Do damage
-					if ray.get_collider() is RigidBody:
+					if ray.get_collider() is RigidBody3D:
 						ray.get_collider().apply_central_impulse(-ray.get_collision_normal() * (local_damage * 0.3));
 					
 					if ray.get_collider().is_in_group("prop"):
 						if ray.get_collider().is_in_group("metal"):
-							var spark = preload("res://data/scenes/spark.tscn").instance();
+							var spark = preload("res://data/scenes/spark.tscn").instantiate();
 							
 							# Add spark scene in collider
 							ray.get_collider().add_child(spark);
@@ -126,7 +173,7 @@ class weapon:
 							ray.get_collider()._damage(local_damage);
 					
 					# Create a instance of decal scene
-					var decal = preload("res://data/scenes/decal.tscn").instance();
+					var decal = preload("res://data/scenes/decal.tscn").instantiate();
 					
 					# Add decal scene in collider
 					ray.get_collider().add_child(decal);
@@ -138,15 +185,21 @@ class weapon:
 					decal.look_at(ray.get_collision_point() + ray.get_collision_normal(), Vector3(1, 1, 0));
 		else:
 			# Play out sound
-			if not audio.get_node("out").playing:
-				audio.get_node("out").pitch_scale = rand_range(0.9, 1.1);
+			if audio and not audio.get_node("out").playing:
+				audio.get_node("out").pitch_scale = randf_range(0.9, 1.1);
 				audio.get_node("out").play();
 
 	func _reload() -> void:
+		var anim_node = _get_anim();
+		if not anim_node:
+			return;
+			
+		var animc = anim_node.current_animation;
+		
 		if bullets < max_bullets and ammo > 0:
 			if animc != "Reload" and animc != "Shoot" and animc != "Draw" and animc != "Hide":
 				# Play reload animation
-				anim.play("Reload", 0.2, reload_speed);
+				anim_node.play("Reload", 0.2, reload_speed);
 				
 				for b in ammo:
 					bullets += 1
@@ -156,32 +209,51 @@ class weapon:
 						break;
 	
 	func _zoom(input, _delta) -> void:
-		var lerp_speed : int = 30;
-		var camera = owner.camera;
+		var lerp_speed : float = 30.0;
+		var camera = _get_camera();
+		var mesh_node = _get_mesh();
+		var anim_node = _get_anim();
+		
+		if not camera or not mesh_node or not anim_node:
+			return;
+			
+		var animc = anim_node.current_animation;
 		
 		if input and animc != "Reload" and animc != "Hide" and animc != "Draw":
-			camera.fov = lerp(camera.fov, 40, lerp_speed * _delta);
-			mesh.translation.y = lerp(mesh.translation.y, 0.001, lerp_speed * _delta);
-			mesh.translation.x = lerp(mesh.translation.x, -0.088, lerp_speed * _delta);
+			camera.fov = lerp(camera.fov, 40.0, lerp_speed * _delta);
+			mesh_node.position.y = lerp(mesh_node.position.y, 0.001, lerp_speed * _delta);
+			mesh_node.position.x = lerp(mesh_node.position.x, -0.088, lerp_speed * _delta);
 		else:
-			camera.fov = lerp(camera.fov, 70, lerp_speed * _delta);
-			mesh.translation.y = lerp(mesh.translation.y, 0, lerp_speed * _delta);
-			mesh.translation.x = lerp(mesh.translation.x, 0, lerp_speed * _delta);
+			camera.fov = lerp(camera.fov, 70.0, lerp_speed * _delta);
+			mesh_node.position.y = lerp(mesh_node.position.y, 0.0, lerp_speed * _delta);
+			mesh_node.position.x = lerp(mesh_node.position.x, 0.0, lerp_speed * _delta);
 	
 	func _update(_delta) -> void:
+		var anim_node = _get_anim();
+		if not anim_node:
+			return;
+			
+		var animc = anim_node.current_animation;
+		
 		if animc != "Shoot":
-			if owner.arsenal.values()[owner.current] == self:
-				owner.camera.rotation.x = lerp(owner.camera.rotation.x, 0, 10 * _delta);
-				owner.camera.rotation.y = lerp(owner.camera.rotation.y, 0, 10 * _delta);
+			if owner and owner.arsenal and owner.current < owner.arsenal.size() and owner.arsenal.values()[owner.current] == self:
+				var camera = _get_camera();
+				if camera:
+					camera.rotation.x = lerp(camera.rotation.x, 0.0, 10.0 * _delta);
+					camera.rotation.y = lerp(camera.rotation.y, 0.0, 10.0 * _delta);
 		
 		# Get current animation
-		animc = anim.current_animation;
+		animc = anim_node.current_animation;
 		
 		# Get effect node
-		var effect = owner.get_node("{}/effect".format([name], "{}"));
-		
-		# Change light energy
-		effect.get_node("shoot").light_energy = lerp(effect.get_node("shoot").light_energy, 0, 5 * _delta);
+		if owner and name:
+			var effect = owner.get_node("%s/effect" % name);
+			
+			# Change light energy
+			if effect:
+				effect.get_node("shoot").light_energy = lerp(effect.get_node("shoot").light_energy, 0.0, 5.0 * _delta);
 		
 		# Remove recoil
-		mesh.rotation.x = lerp(mesh.rotation.x, 0, 5 * _delta);
+		var mesh_node = _get_mesh();
+		if mesh_node:
+			mesh_node.rotation.x = lerp(mesh_node.rotation.x, 0.0, 5.0 * _delta);

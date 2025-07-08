@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/fire.ogg-20f64cbb3726029c76e08d47722f4ae8.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dclslbssxtl84"
+path="res://.godot/imported/fire.ogg-20f64cbb3726029c76e08d47722f4ae8.oggvorbisstr"
 
 [deps]
 
 source_file="res://data/audios/weapons/glock_17/fire.ogg"
-dest_files=[ "res://.import/fire.ogg-20f64cbb3726029c76e08d47722f4ae8.oggstr" ]
+dest_files=["res://.godot/imported/fire.ogg-20f64cbb3726029c76e08d47722f4ae8.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

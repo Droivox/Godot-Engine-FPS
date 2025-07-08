@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/fire.ogg-55ab78a35b958f9b88e2da76760c8326.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cupurq2bkbig7"
+path="res://.godot/imported/fire.ogg-55ab78a35b958f9b88e2da76760c8326.oggvorbisstr"
 
 [deps]
 
 source_file="res://data/audios/weapons/mk_23/fire.ogg"
-dest_files=[ "res://.import/fire.ogg-55ab78a35b958f9b88e2da76760c8326.oggstr" ]
+dest_files=["res://.godot/imported/fire.ogg-55ab78a35b958f9b88e2da76760c8326.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
